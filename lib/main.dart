@@ -1,55 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:gitrepos/RepositoryWidget.dart';
 
-void main() {
-  runApp(MyApp(
-    items: List<ListElement>.generate(
-        20, (index) => ListElement(
-        "Title $index", "Description $index")
-    ),
-  ));
-}
+void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
 
-  final List<ListElement> items;
-
-  MyApp({Key key, @required this.items}): super(key: key);
+  final routes = <String, WidgetBuilder>{
+    RepositoryWidget.tag: (context) => RepositoryWidget(),
+  };
 
   @override
   Widget build(BuildContext context) {
-
-    final title = "Git repos";
-
-    return MaterialApp(
-      title: title,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: ListView.builder(
-            itemCount: items.length,
-
-            itemBuilder: (context, index) {
-              final item = items[index];
-              return ListTile(
-                title: item.buildTitle(context),
-                subtitle: item.buildDescription(context),
-              );
-            }),
+    return new MaterialApp(
+      title: 'Recipe Finder',
+      theme: new ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      home: RepositoryWidget(),
+      routes: routes,
     );
-
   }
-
 }
-
-class ListElement {
-    final String title;
-    final String description;
-
-  ListElement(this.title, this.description);
-
-  Widget buildTitle(BuildContext context) => Text(title);
-  Widget buildDescription(BuildContext context) => Text(description);
-}
-
